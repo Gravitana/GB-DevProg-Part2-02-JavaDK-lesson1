@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Map extends JPanel {
     private static final Random RANDOM = new Random();
-    private static final int DOT_PADDING = 5;
+    private static final int PADDING = 5;
 
     private int gameOverType;
     private static final int STATE_DRAW = 0;
@@ -35,7 +35,7 @@ public class Map extends JPanel {
     private int cellHeight;
 
     Map() {
-        setBackground(Color.GRAY);
+        setBackground(Color.WHITE);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -173,16 +173,14 @@ public class Map extends JPanel {
 
                 if (field[y][x] == HUMAN_DOT) {
                     g.setColor(Color.BLUE);
-                    g.fillOval(x * cellWidth + DOT_PADDING,
-                            y * cellHeight + DOT_PADDING,
-                            cellWidth - DOT_PADDING * 2,
-                            cellHeight - DOT_PADDING * 2);
+                    g.drawLine(x * cellWidth + PADDING, y * cellHeight + PADDING,
+                            (x + 1) * cellWidth - PADDING, (y + 1) * cellHeight - PADDING);
+                    g.drawLine(x * cellWidth + PADDING, (y + 1) * cellHeight - PADDING,
+                            (x + 1) * cellWidth - PADDING, y * cellHeight + PADDING);
                 } else if (field[y][x] == AI_DOT){
                     g.setColor(new Color(0xff0000));
-                    g.fillOval(x * cellWidth + DOT_PADDING,
-                            y * cellHeight + DOT_PADDING,
-                            cellWidth - DOT_PADDING * 2,
-                            cellHeight - DOT_PADDING * 2);
+                    g.drawOval(x * cellWidth + PADDING, y * cellHeight + PADDING,
+                            cellWidth - PADDING * 2, cellHeight - PADDING * 2);
                 } else {
                     throw new RuntimeException("Unexpected value " + field[y][x] +
                             " in cell: x=" + x + " y=" + y);
@@ -198,7 +196,7 @@ public class Map extends JPanel {
     private void showMessageGameOver(Graphics g) {
         g.setColor(Color.DARK_GRAY);
         g.clearRect(0, 200, getWidth(), 70);
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.GREEN);
         g.setFont(new Font("Times new roman", Font.BOLD, 48));
         switch (gameOverType) {
             case STATE_DRAW -> g.drawString(MSG_DRAW, 180, getHeight() / 2);
